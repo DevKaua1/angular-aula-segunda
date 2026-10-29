@@ -1,16 +1,16 @@
 <h1>Lista de Atividades</h1>
-<!--Por causa do FormsModule o Angular vai gerenciar o submit do formulario-->
 <section class="formulario">
-    <form (ngSubmit="editando == null? adicionar(): salvar()")>
-        <label for="nome">Atividade: </label>
-        <!--CRIA UM VÍNCULO DE DUAS COM O TS(ngModel)-->
-        <input type="text" id="nome" name="nome" [(ngModel)]="nome" placeholder="Nova Atividade"> 
-
-        <button type="submit">{{editando == null ? "Adicionar" : "Salvar"}}</button>
-        <button  (click)="cancelar()">Cancelar</button>
-    </form>
-</section>
+    <!-- Por causa do FormsModule o Angular vai gerenciar o submit do formulário-->
+         <form (ngSubmit)=" editando === null ? adicionar() : salvar()">
+             <label for="nome">Atividade: </label>
+             <!-- [(ngModel)]="nome" cria um vínculo de duas mãos com o TS -->   
+             <input type="text" id="nome" name="nome" [(ngModel)]="nome" placeholder="Nova Atividade" required>
+             <button class="salvar" type="submit">{{ editando === null ? "Adicionar" : "Salvar"}}</button>
+             <button class="cancelar" (click)="cancelar()">Cancelar</button>
+            </form>
+ </section>
 <section>
+
     <table>
         <thead>
             <tr>
@@ -19,23 +19,26 @@
                 <th>Ações</th>
             </tr>
         </thead>
-
+<!-- Vamos começar a fazer a varredura do vetor lista -->
         <tbody>
-            <!----Vamos começar a fazer a varredura do vetor lista-->
-            @for(atividade of lista; track atividade.id){
+
+            @for (atividade of lista; track atividade.id) {
                 <tr>
-                    <!-- Vínculo simples entre o HTML e o TS -> Leitura de valores -->
-                    <td>{{atividade.id}}</td>
-                    <td> {{atividade.nome}} </td>
-                    <td>"Editar" | "Excluir"</td>
+            <!-- Vínculo simples entre o html e TS -> Somente leitura de valores -->
+                    <td>{{ atividade.id }}</td>
+                    <td>{{ atividade.nome }}</td>
+                    <td>
+                        <button (click)="editar(atividade)">Editar</button>
+                        <button (click)="excluir(atividade.id)">Excluir</button>
+                    </td>
                 </tr>
             }
 
             @empty{
+                <!-- Mesclar as 3 colunas -->
                 <tr colspan="3">Nenhuma atividade cadastrada</tr>
-
             }
-
+            
         </tbody>
 
     </table>
